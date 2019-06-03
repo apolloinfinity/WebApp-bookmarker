@@ -53,9 +53,9 @@ function deleteBookmark(url) {
     var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
 
     // Loop through bookmarks 
-    for (var i = 0; i < bookmarks.length; i++) {
-        if (bookmarks[i].url == url) {
-            bookmarks.splice(i, 1);
+    for (bookmark of bookmarks) {
+        if (bookmark.url === url) {
+            bookmarks.splice(bookmark, 1);
         }
     }
     // Resets localStorage after deleting
