@@ -10,23 +10,40 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// MongoDB connection
 mongoose.connect(db, { useNewUrlParser: true })
     .then(() => console.log("Connected to MongoDB"))
     .catch(err => console.error(err));
 
-
-
-app.get('/', (req, res, next) => {
-    console.log('Hello');
-    res.send('Hello')
-    res.status(200);
-    next();
+// Mongoose Schema
+const BookmarkSchema = new mongoose.Schema({
+    bookmarkName: String,
+    bookmarkURL: String,
+    date: { type: Date, default: Date.now }
 });
 
-app.post('/bookmarks', (req, res) => {
-    console.log("Saved!")
-    res.send('Saved!');
-    res.status(201);
+const BookMark = mongoose.model('bookmarks', BookmarkSchema);
+
+
+app.get('/bookmarks', (req, res) => {
+    BookMark.find({}, function (err, bookmarks) {
+        if (err) throw err;
+        console.log(bookmarks)
+        res.send(bookmarks)
+    })
+});
+
+app.post('/bookmarks', async (req, res) => {
+    const { name, url } = await req.body;
+    const bookmark = new BookMark({
+        bookmarkName: await name,
+        bookmarkURL: await url
+    });
+
+    await bookmark.save().then(() => res.status(201).send())
+        .catch(err => console.error(err))
+    console.log("saved")
+
 });
 
 const port = process.env.PORT || 5000;
