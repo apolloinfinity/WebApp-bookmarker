@@ -3,13 +3,19 @@ const mongoose = require('mongoose');
 const Bookmark = require('../models/bookmarkModel');
 
 exports.getBookmarks = async (req, res) => {
-    Bookmark.find({}, (err, bookmark) => {
-        if (err) {
-            console.error(err);
-        } else {
-            res.sendStatus(200).send();
-        }
-    })
+    try {
+        Bookmark.find({}, (err, bookmarks) => {
+            if (err) {
+                res.sendStatus(400);
+            } else {
+
+                res.send(bookmarks);
+            }
+
+        })
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 exports.postBookmarks = async (req, res) => {
