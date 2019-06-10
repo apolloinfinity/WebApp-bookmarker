@@ -4,17 +4,12 @@ const Bookmark = require('../models/bookmarkModel');
 
 exports.getBookmarks = async (req, res) => {
     try {
-        Bookmark.find({}, (err, bookmarks) => {
-            if (err) {
-                res.sendStatus(400);
-            } else {
-
-                res.send(bookmarks);
-            }
-
-        })
+        const results = await Bookmark.find({});
+        // console.log(results);
+        // res.send(results);
+        res.status(200).send(results);
     } catch (err) {
-        console.error(err);
+        throw err;
     }
 }
 
@@ -36,5 +31,5 @@ exports.updateBookmarkrs = async (req, res) => {
 }
 
 exports.deleteBookmark = async (req, res) => {
-    res.send('Delete bookmark');
+    Bookmark.deleteOne({})
 }
