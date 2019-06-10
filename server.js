@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const db = require('./config/db').mongoURI;
 mongoose.connect(db, { useNewUrlParser: true })
@@ -11,6 +12,7 @@ mongoose.connect(db, { useNewUrlParser: true })
 
 const app = express();
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
