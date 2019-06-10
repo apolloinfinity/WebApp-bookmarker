@@ -1,6 +1,35 @@
 document.getElementById('myForm').addEventListener('submit', saveBookmark);
 
 function saveBookmark(e) {
+    const siteName = document.getElementById('siteName').value;
+    const siteUrl = document.getElementById('siteUrl').value;
+
+    if (!validateForm(siteName, siteUrl)) {
+        return false;
+    }
+
+    const bookmark = {
+        name: siteName,
+        url: siteUrl
+    }
+
+    fetch('http://127.0.0.1:5000/api/bookmarks', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify(bookmark)
+    });
+
+    // Clear form
+    document.getElementById('myForm').reset();
+
+    // Refetches Bookmarks
+    fetchBookmarks();
+
+    // Prevents default behavior of form from submitting
+    e.preventDefault();
+}
+
+function deleteBookmark(url) {
 
 }
 
@@ -21,24 +50,53 @@ function validateForm(siteName, siteUrl) {
     return true;
 }
 
-async function fetchBookmarks() {
+// async function fetchBookmarks() {
+
+//     const bookmarksResults = document.getElementById('bookmarksResults');
+
+//     let response = await (await fetch('http://127.0.0.1:5000/api/bookmarks'));
+//     let bookmarks = await response.json();
+//     console.log(bookmarks)
+
+//     for (bookmark of bookmarks) {
+//         let name = bookmark.bookmarkName;
+//         let url = bookmark.bookmarkURL;
+//         bookmarksResults.innerHTML +=
+//             `<div class="well">
+//             <h3>${name}
+//                 <a class="btn btn-default" target="_blank" href="${url}">Visit</a>
+//                 <a onclick="deleteBookmark('${url}')" class="btn btn-danger" href="">Delete</a>
+//             </h3>
+//         </div>
+//         `
+//     };
+
+// }
+
+function fetchBookmarks() {
 
     const bookmarksResults = document.getElementById('bookmarksResults');
 
-    let response = await (await fetch('http://127.0.0.1:5000/api/bookmarks'));
-    let bookmarks = await response.json();
-
-    for (bookmark of bookmarks) {
-        let name = bookmark.bookmarkName;
-        let url = bookmark.bookmarkURL;
-        bookmarksResults.innerHTML +=
-            `<div class="well">
-            <h3>${name}
-                <a class="btn btn-default" target="_blank" href="${url}">Visit</a>
-                <a onclick="deleteBookmark('${url}')" class="btn btn-danger" href="">Delete</a>
-            </h3>
-        </div>
-        `
-    };
-
+    fetch('http://127.0.0.1:5000/api/bookmarks')
+        .then((resp) => {
+            if (resp.ok) {
+                return resp.json();
+            } else {
+                return Promise.reject('Something went wrong!');
+            }
+        })
+        .then(bookmarks => {
+            for (bookmark of bookmarks) {
+                let name = bookmark.bookmarkName;
+                let url = bookmark.bookmarkURL;
+                bookmarksResults.innerHTML +=
+                    `<div class="well">
+                <h3>${name}
+                    <a class="btn btn-default" target="_blank" href="${url}">Visit</a>
+                    <a onclick="deleteBookmark('${url}')" class="btn btn-danger" href="">Delete</a>
+                </h3>
+            </div>
+            `
+            };
+        }).catch(error => console.log(`Error is ${error}`));
 }
