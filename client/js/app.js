@@ -1,4 +1,5 @@
 document.getElementById('myForm').addEventListener('submit', saveBookmark);
+fetchBookmarks();
 
 function saveBookmark(e) {
     const siteName = document.getElementById('siteName').value;
@@ -87,8 +88,8 @@ function fetchBookmarks() {
         })
         .then(bookmarks => {
             for (bookmark of bookmarks) {
-                let name = bookmark.bookmarkName;
-                let url = bookmark.bookmarkURL;
+                let name = bookmark.name;
+                let url = bookmark.url;
                 bookmarksResults.innerHTML +=
                     `<div class="well">
                 <h3>${name}
