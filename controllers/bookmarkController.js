@@ -12,12 +12,25 @@ exports.getBookmarks = async (req, res) => {
         throw err;
     }
 }
+exports.getBookmark = async (req, res) => {
+    try {
+        const id = req.params.id
+        const results = await Bookmark.find({ _id: id });
+        // console.log(results);
+        res.send(results);
+        console.log(id)
+        // res.status(200).send(results);
+    } catch (err) {
+        throw err;
+    }
+}
 
-exports.postBookmarks = async (req, res) => {
+exports.postBookmark = async (req, res) => {
     const { name, url } = await req.body;
+    console.log(req.body.url)
     const bookmark = new Bookmark({
-        bookmarkName: await name,
-        bookmarkURL: await url
+        name: await name,
+        url: await url
     });
 
     await bookmark.save()
@@ -26,10 +39,17 @@ exports.postBookmarks = async (req, res) => {
     console.log("saved")
 }
 
-exports.updateBookmarkrs = async (req, res) => {
+exports.updateBookmark = async (req, res) => {
     res.send('Update bookmark')
 }
 
 exports.deleteBookmark = async (req, res) => {
-    Bookmark.deleteOne({})
+    try {
+        const id = await req.params.id
+        const results = await Bookmark.deleteOne({ _id: id });
+        console.log(results)
+        res.status(200).send(Bookmark.deletedCount);
+    } catch (err) {
+        throw err;
+    }
 }
