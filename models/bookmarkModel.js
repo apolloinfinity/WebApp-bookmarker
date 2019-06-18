@@ -10,4 +10,4 @@ const BookmarkSchema = new Schema({
 
 const Bookmark = mongoose.model('bookmarks', BookmarkSchema);
 
-module.exports = Bookmark; 
+module.exports = Bookmark;
