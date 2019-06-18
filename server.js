@@ -6,9 +6,10 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const db = require('./config/db').mongoURI;
-mongoose.connect(db, { useNewUrlParser: true })
-    .then(() => console.log("Connected to MongoDB"))
-    .catch(err => console.error(err));
+mongoose
+	.connect(db, { useNewUrlParser: true })
+	.then(() => console.log('Connected to MongoDB'))
+	.catch((err) => console.error(err));
 
 const app = express();
 
