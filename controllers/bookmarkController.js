@@ -26,15 +26,23 @@ exports.getBookmark = async (req, res) => {
 };
 
 exports.postBookmark = async (req, res) => {
-	const { name, url } = await req.body;
-	console.log(req.body.url);
-	const bookmark = new Bookmark({
-		name: await name,
-		url: await url
-	});
-
-	await bookmark.save().then(() => res.status(201).send()).catch((err) => console.error(err));
-	console.log('saved');
+	try {
+		const { name, url } = req.body;
+		const bookmark = Bookmark({
+			name,
+			url
+		});
+		const checkURL = await Bookmark.findOne({ url: url });
+		if (checkURL) {
+			console.log('That bookmark exists already!');
+		} else {
+			bookmark.save();
+			console.log('Saved');
+		}
+		res.status(201).send().end();
+	} catch (err) {
+		throw err;
+	}
 };
 
 exports.updateBookmark = async (req, res) => {
