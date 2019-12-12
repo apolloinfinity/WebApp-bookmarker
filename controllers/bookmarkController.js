@@ -4,10 +4,10 @@ const Bookmark = require('../models/bookmarkModel');
 
 exports.getBookmarks = async (req, res) => {
 	try {
-		const results = await Bookmark.find({});
-		// console.log(results);
-		// res.send(results);
-		res.status(200).send(results);
+		const bookmarks = await Bookmark.find({});
+		res.render('index', {
+			bookmarks
+		});
 	} catch (err) {
 		throw err;
 	}
@@ -27,9 +27,10 @@ exports.getBookmark = async (req, res) => {
 
 exports.postBookmark = async (req, res) => {
 	try {
-		const { name, url } = req.body;
+		const { siteName, url } = req.body;
+		console.log(req.body);
 		const bookmark = Bookmark({
-			name,
+			siteName,
 			url
 		});
 		const checkURL = await Bookmark.findOne({ url: url });
@@ -39,6 +40,7 @@ exports.postBookmark = async (req, res) => {
 			bookmark.save();
 			console.log('Saved');
 		}
+		res.redirect('index');
 		res.status(201).send().end();
 	} catch (err) {
 		throw err;
