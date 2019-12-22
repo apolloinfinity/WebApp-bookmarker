@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
-
-const Schema = mongoose.Schema;
+const { Schema, model } = require('mongoose');
 
 const BookmarkSchema = new Schema({
 	name: String,
@@ -8,6 +6,4 @@ const BookmarkSchema = new Schema({
 	date: { type: Date, default: Date.now }
 });
 
-const Bookmark = mongoose.model('bookmarks', BookmarkSchema);
-
-module.exports = Bookmark;
+module.exports.Bookmark = model('bookmarks', BookmarkSchema);
