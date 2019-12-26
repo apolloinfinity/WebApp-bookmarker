@@ -1,4 +1,7 @@
 const Bookmark = require('../models/bookmarkModel');
+exports.index = (req, res) => {
+	res.render('index');
+};
 
 exports.getBookmarks = async (req, res) => {
 	try {
@@ -23,12 +26,13 @@ exports.postBookmark = async (req, res) => {
 		if (checkURL) {
 			console.log('That bookmark exists already!');
 		} else {
-			bookmark.save();
+			await bookmark.save();
+			res.redirect('/');
 			console.log('Saved');
 		}
 
-		res.redirect('/');
-		res.status(201).send().end();
+		res.status(201);
+		// res.status(201).send().end();
 	} catch (err) {
 		throw err;
 	}
