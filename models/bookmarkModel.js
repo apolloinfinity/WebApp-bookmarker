@@ -6,4 +6,4 @@ const BookmarkSchema = new Schema({
 	date: { type: Date, default: Date.now }
 });
 
-module.exports.Bookmark = model('bookmarks', BookmarkSchema);
+module.exports = Bookmark = model('bookmarks', BookmarkSchema);
