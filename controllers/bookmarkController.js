@@ -1,25 +1,11 @@
-const mongoose = require('mongoose');
-
 const Bookmark = require('../models/bookmarkModel');
 
 exports.getBookmarks = async (req, res) => {
 	try {
 		const bookmarks = await Bookmark.find({});
 		res.render('index', {
-			bookmarks
+			bookmarks: bookmarks
 		});
-	} catch (err) {
-		throw err;
-	}
-};
-exports.getBookmark = async (req, res) => {
-	try {
-		const id = req.params.id;
-		const results = await Bookmark.find({ _id: id });
-		// console.log(results);
-		res.send(results);
-		console.log(id);
-		// res.status(200).send(results);
 	} catch (err) {
 		throw err;
 	}
@@ -27,12 +13,12 @@ exports.getBookmark = async (req, res) => {
 
 exports.postBookmark = async (req, res) => {
 	try {
-		const { siteName, url } = req.body;
-		console.log(req.body);
+		const { name, url } = await req.body;
 		const bookmark = Bookmark({
-			siteName,
+			name,
 			url
 		});
+
 		const checkURL = await Bookmark.findOne({ url: url });
 		if (checkURL) {
 			console.log('That bookmark exists already!');
@@ -40,15 +26,12 @@ exports.postBookmark = async (req, res) => {
 			bookmark.save();
 			console.log('Saved');
 		}
-		res.redirect('index');
+
+		res.redirect('/');
 		res.status(201).send().end();
 	} catch (err) {
 		throw err;
 	}
-};
-
-exports.updateBookmark = async (req, res) => {
-	res.send('Update bookmark');
 };
 
 exports.deleteBookmark = async (req, res) => {
