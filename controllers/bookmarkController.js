@@ -1,13 +1,11 @@
 const Bookmark = require('../models/bookmarkModel');
-exports.index = (req, res) => {
-	res.render('index');
-};
 
 exports.getBookmarks = async (req, res) => {
 	try {
 		const bookmarks = await Bookmark.find({});
 		res.render('index', {
-			bookmarks: bookmarks
+			bookmarks: bookmarks,
+			path: '/bookmark'
 		});
 	} catch (err) {
 		throw err;
@@ -17,6 +15,7 @@ exports.getBookmarks = async (req, res) => {
 exports.postBookmark = async (req, res) => {
 	try {
 		const { name, url } = await req.body;
+		console.log(req.body);
 		const bookmark = Bookmark({
 			name,
 			url
@@ -27,7 +26,7 @@ exports.postBookmark = async (req, res) => {
 			console.log('That bookmark exists already!');
 		} else {
 			await bookmark.save();
-			res.redirect('/');
+			res.json(bookmark);
 			console.log('Saved');
 		}
 
@@ -42,8 +41,8 @@ exports.deleteBookmark = async (req, res) => {
 	try {
 		const id = await req.params.id;
 		const results = await Bookmark.deleteOne({ _id: id });
-		console.log(results);
-		res.status(200).send(Bookmark.deletedCount);
+		// console.log(results);
+		res.status(200).send();
 	} catch (err) {
 		throw err;
 	}
