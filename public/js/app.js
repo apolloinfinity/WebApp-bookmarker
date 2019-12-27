@@ -1,44 +1,39 @@
-const validateForm = (siteName, siteUrl) => {
-	if (!siteName || !siteUrl) {
-		alert('Please fill in the form');
+$(document).ready(function() {
+	$('form').on('submit', function() {
+		const name = $('input#siteName');
+		const url = $('input#siteUrl');
+
+		const bookmark = {
+			name: name.val(),
+			url: url.val()
+		};
+
+		console.log(name + url);
+
+		$.ajax({
+			type: 'POST',
+			url: '/bookmark',
+			data: bookmark,
+			success: function(data) {
+				//do something with the data via front-end framework
+				location.reload();
+			}
+		});
+
 		return false;
-	}
+	});
 
-	var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-	var regex = new RegExp(expression);
-
-	if (!siteUrl.match(regex)) {
-		alert('Please use a valid URL');
-		return false;
-	}
-
-	return true;
-};
-
-const saveBookmark = (e) => {
-	const siteName = document.getElementById('siteName').value;
-	const siteUrl = document.getElementById('siteUrl').value;
-
-	if (!validateForm(siteName, siteUrl)) {
-		return false;
-	}
-
-	const bookmark = {
-		name: siteName,
-		url: siteUrl
-	};
-
-	const options = {
-		method: 'POST',
-		body: JSON.stringify(bookmark),
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	};
-
-	fetch('/bookmark', options)
-	document.getElementById('myForm').reset();
-	e.preventDefault();
-};
-
-document.getElementById('myForm').addEventListener('submit', saveBookmark);
+	$('a.delete').on('click', function(e) {
+		const id = $('.well').attr('id');
+		e.preventDefault();
+		// console.log(`Clicked ${item}`);
+		$.ajax({
+			type: 'DELETE',
+			url: '/bookmark/' + id,
+			success: function(data) {
+				//do something with the data via front-end framework
+				location.reload();
+			}
+		});
+	});
+});
