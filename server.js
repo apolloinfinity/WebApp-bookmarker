@@ -7,6 +7,8 @@ const cors = require('cors');
 const db = require('./config/db').mongoURI;
 const bookmarks = require('./routes/bookmark');
 
+// const demoLogger = require('./helpers/logger');
+
 const start = async () => {
 	try {
 		await mongoose.connect(db, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -18,6 +20,8 @@ const start = async () => {
 		app.use(express.urlencoded({ extended: true }));
 		app.use(express.json());
 		app.set('view engine', 'ejs');
+
+		// app.use(demoLogger);
 
 		app.set('views', 'views');
 		app.use(express.static(path.join(__dirname, 'public')));
