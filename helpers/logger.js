@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const dateFns = require('date-fns');
+const chalk = require('chalk');
 
 const getActualRequestDurationInMilliseconds = start => {
 	const NS_PER_SEC = 1e9; // convert to nanoseconds
@@ -28,7 +29,7 @@ module.exports = (req, res, next) => {
 	let status = res.statusCode;
 	const start = process.hrtime();
 	const durationInMilliseconds = getActualRequestDurationInMilliseconds(start);
-	let log = `[${formatted_date}] ${method}:${url} ${status} ${durationInMilliseconds.toLocaleString()} ms`;
+	let log = `[${chalk.blue(formatted_date)}] ${method}:${url} ${status} ${chalk.red(durationInMilliseconds.toLocaleString())} ms`;
 	console.log(log);
 	fs.appendFile('request_logs.txt', log + "\n", err => {
 		if (err) console.log(err)
