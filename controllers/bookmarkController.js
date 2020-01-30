@@ -14,11 +14,12 @@ exports.getBookmarks = async (req, res) => {
 
 exports.postBookmark = async (req, res) => {
 	try {
-		const { name, url } = await req.body;
+		const { name, url, user } = await req.body;
 		console.log(req.body);
 		const bookmark = Bookmark({
 			name,
-			url
+			url,
+			user
 		});
 
 		const checkURL = await Bookmark.findOne({ url: url });
