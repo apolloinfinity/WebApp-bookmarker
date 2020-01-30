@@ -9,4 +9,4 @@ As always, Brad encourages his viewers to make the project their own and I have 
 ## Get this project running. 
 * Create a config directory with a file called db.js.
 * Connect to your MongoDB instance
-* In the command line type "npm run dev"
+* In the command line type "npm start"
