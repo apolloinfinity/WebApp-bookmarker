@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const BookmarkSchema = new Schema({
 	name: String,
 	url: String,
+	user: String,
 	date: { type: Date, default: Date.now }
 });
 
