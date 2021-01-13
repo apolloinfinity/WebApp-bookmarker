@@ -4,7 +4,7 @@ const BookmarkSchema = new Schema({
 	name: String,
 	url: String,
 	user: String,
-	date: { type: Date, default: Date.now }
+	date: { type: Date, default: Date.now },
 });
 
-module.exports = Bookmark = model('bookmarks', BookmarkSchema);
+module.exports = Bookmark = model('bookmark', BookmarkSchema);
