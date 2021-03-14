@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 require('dotenv').config();
-const bookmarks = require('./routes/bookmark');
+const bookmarks = require('./routes/bookmark.routes');
 
 db = process.env.MONGO_URI;
 

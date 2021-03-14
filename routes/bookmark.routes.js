@@ -7,7 +7,7 @@ const {
   getBookmarks,
   postBookmark,
   deleteBookmark,
-} = require('../controllers/bookmarkController');
+} = require('../controllers/bookmark.controller');
 
 router.use(logger);
 
