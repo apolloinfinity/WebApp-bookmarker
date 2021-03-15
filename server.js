@@ -31,7 +31,11 @@ const start = async () => {
 
     app.set('views', 'views');
     app.use(express.static(path.join(__dirname, 'public')));
-    app.use('/', bookmarks);
+    app.use('/api', bookmarks);
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, 'public/'));
+    });
 
     const port = process.env.PORT || 5000;
     app.listen(port, () => console.log(`Listening on port: ${port}`));
