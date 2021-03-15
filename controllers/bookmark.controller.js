@@ -4,9 +4,9 @@ exports.getBookmarks = async (req, res) => {
   try {
     const bookmarks = await Bookmark.find({});
 
-    return res.status(200).json({ message: bookmarks });
+    return res.status(200).json({ data: bookmarks });
   } catch (err) {
-    return res.status(400).json({ message: err });
+    return res.status(400).json({ error: err });
   }
 };
 
@@ -26,10 +26,10 @@ exports.postBookmark = async (req, res) => {
     } else {
       await bookmark.save();
       console.log('Saved');
-      return res.status(201).json({ message: bookmark });
+      return res.status(201).json({ data: bookmark });
     }
   } catch (err) {
-    return res.status(400).json({ message: err });
+    return res.status(400).json({ error: err });
   }
 };
 
@@ -39,8 +39,8 @@ exports.deleteBookmark = async (req, res) => {
 
     await Bookmark.deleteOne({ _id: id });
 
-    return res.status(200).json({ message: 'Bookmark deleted' });
+    return res.status(200).json({ data: 'Bookmark deleted' });
   } catch (err) {
-    return res.status(400).json({ message: err });
+    return res.status(400).json({ error: err });
   }
 };
