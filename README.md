@@ -14,3 +14,5 @@ As always, Brad encourages his viewers to make the project their own and I have 
 - Create a config directory with a file called db.js.
 - Connect to your MongoDB instance
 - In the command line type "npm start"
+
+- [Not the most "React"ive way to handle clear forms but it works](https://stackoverflow.com/questions/52504275/reset-form-input-values-in-react)
