@@ -28,12 +28,12 @@ const start = async () => {
 		app.use(express.json());
 
 		// app.use(demoLogger);
+		app.use(express.static('public'));
 
-		app.use('/api', bookmarks);
-
-		app.get('*', (req, res) => {
+		app.get('/', (req, res) => {
 			res.sendFile(path.join(__dirname, 'public/'));
 		});
+		app.use('/api', bookmarks);
 
 		app.listen(port, () => console.log(`Listening on port: ${port}`));
 	} catch (err) {
