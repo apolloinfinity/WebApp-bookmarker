@@ -1,4 +1,4 @@
-const Bookmark = require('../models/bookmark.model');
+const Bookmark = require("../models/bookmark.model");
 
 exports.getBookmarks = async (req, res) => {
   try {
@@ -7,6 +7,14 @@ exports.getBookmarks = async (req, res) => {
     return res.status(200).json({ bookmarks: bookmarks });
   } catch (err) {
     return res.status(400).json({ error: err });
+  }
+};
+
+exports.getSingleBookmark = async (req, res) => {
+  try {
+    const { id } = req.params;
+  } catch (err) {
+    return res.status(500).json({ error: err });
   }
 };
 
@@ -21,10 +29,10 @@ exports.postBookmark = async (req, res) => {
 
     const checkURL = await Bookmark.findOne({ url: url });
     if (checkURL) {
-      return res.json('Bookmark already exists!');
+      return res.json("Bookmark already exists!");
     } else {
       await bookmark.save();
-      console.log('Saved');
+      console.log("Saved");
       return res.status(201).json({ bookmark: bookmark });
     }
   } catch (err) {
@@ -55,7 +63,7 @@ exports.deleteBookmark = async (req, res) => {
 
     const bookmark = await Bookmark.deleteOne({ _id: id });
 
-    return res.status(200).json({ bookmark: bookmark });
+    return res.status(200).json({ msg: "Bookmark successfully deleted" });
   } catch (err) {
     return res.status(400).json({ error: err });
   }
